@@ -51,6 +51,13 @@ function CreateBudget() {
              Budget Name</h2>
           <Input placeholder="e.g. Home Decor"/>
         </div>
+
+        <div className='mt-2'>
+          <h2 className='text-black font-medium my-1'>
+             Budget Amount</h2>
+          <Input placeholder="e.g. 5000"/>
+        </div>
+        <Button className='mt-5 w-full'>Create Budget</Button>
         </div>
       
         
