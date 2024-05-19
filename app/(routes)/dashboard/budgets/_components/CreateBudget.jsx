@@ -7,6 +7,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogFooter,
+  DialogClose,
 } from "@/components/ui/dialog";
 import EmojiPicker from 'emoji-picker-react';
 import { Button } from '@/components/ui/button';
@@ -17,7 +19,7 @@ import { toast } from 'sonner';
 import { db } from '@/utils/dbConfig';
 
 function CreateBudget() {
-  const [emojiIcon, setEmojiIcon] = useState('emg');
+  const [emojiIcon, setEmojiIcon] = useState('emj');
   const [openEmojiPicker, setOpenEmojiPicker] = useState(false);
 
   const [name, setName] = useState('');
@@ -92,16 +94,21 @@ function CreateBudget() {
                     onChange={(e) => setAmount(e.target.value)}
                   />
                 </div>
-                <Button
+               
+              </div>
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="sm:justify-start">
+          <DialogClose asChild>
+          <Button
                   disabled={!(name && amount)}
                   onClick={onCreateBudget}
                   className='mt-5 w-full'
                 >
                   Create Budget
                 </Button>
-              </div>
-            </DialogDescription>
-          </DialogHeader>
+          </DialogClose>
+        </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
