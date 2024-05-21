@@ -18,10 +18,9 @@ import { useUser } from '@clerk/nextjs';
 import { toast } from 'sonner';
 import { db } from '@/utils/dbConfig';
 
-function CreateBudget({refreshData}) {
-  const [emojiIcon, setEmojiIcon] = useState('e');
+function CreateBudget({ refreshData }) {
+  const [emojiIcon, setEmojiIcon] = useState('😊'); // Default emoji
   const [openEmojiPicker, setOpenEmojiPicker] = useState(false);
-
   const [name, setName] = useState('');
   const [amount, setAmount] = useState('');
 
@@ -31,18 +30,21 @@ function CreateBudget({refreshData}) {
     try {
       const result = await db.insert(Budgets).values({
         name: name,
-        amount: amount,
+        amount: Number(amount),
         createdBy: user?.primaryEmailAddress?.emailAddress,
         icon: emojiIcon,
-      }).execute(); // Use .execute() to run the query
+      }).execute();
 
       if (result) {
-        refreshData()
-        toast('New Budget Created!');
+        refreshData();
+        toast.success('New Budget Created!');
+        setName('');
+        setAmount('');
+        setEmojiIcon('😊');
       }
     } catch (error) {
       console.error('Error creating budget:', error);
-      toast('Failed to create budget');
+      toast.error('Failed to create budget');
     }
   };
 
@@ -68,16 +70,16 @@ function CreateBudget({refreshData}) {
                 >
                   {emojiIcon}
                 </Button>
-                <div className='absolute z-20'>
-                  {openEmojiPicker && (
+                {openEmojiPicker && (
+                  <div className='absolute z-20'>
                     <EmojiPicker
                       onEmojiClick={(e) => {
                         setEmojiIcon(e.emoji);
                         setOpenEmojiPicker(false);
                       }}
                     />
-                  )}
-                </div>
+                  </div>
+                )}
                 <div className='mt-2'>
                   <h2 className='text-black font-medium my-1'>Budget Name</h2>
                   <Input
@@ -95,21 +97,20 @@ function CreateBudget({refreshData}) {
                     onChange={(e) => setAmount(e.target.value)}
                   />
                 </div>
-               
               </div>
             </DialogDescription>
           </DialogHeader>
           <DialogFooter className="sm:justify-start">
-          <DialogClose asChild>
-          <Button
-                  disabled={!(name && amount)}
-                  onClick={onCreateBudget}
-                  className='mt-5 w-full'
-                >
-                  Create Budget
-                </Button>
-          </DialogClose>
-        </DialogFooter>
+            <DialogClose asChild>
+              <Button
+                disabled={!(name && amount)}
+                onClick={onCreateBudget}
+                className='mt-5 w-full'
+              >
+                Create Budget
+              </Button>
+            </DialogClose>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
