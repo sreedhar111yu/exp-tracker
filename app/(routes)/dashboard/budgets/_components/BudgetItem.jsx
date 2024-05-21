@@ -2,15 +2,15 @@ import React from 'react'
 
 function BudgetItem({budget}) {
   return (
-    <div className='p-5 border rounded-lg   '>
+    <div className='p-5 border rounded-lg hover:shadow-md cursor-pointer '>
         <div className='flex gap-2 items-cente justify-between'>
         <div className='flex gap-2 items-cente '>
             <h2 className='text-2xl p-6 bg-slate-100 rounded-full'>{budget?.icon}</h2>
             <div>
-                <h2>
+                <h2 className='font-bold'>
                     {budget.name}
                 </h2>
-                <h2>{budget.totalItem} Item</h2>
+                <h2 className='text-sm text-gray-400'>{budget.totalItem} Item</h2>
             </div>
         </div>
         <h2 className='font-bold text-primary text-lg'> {budget.amount} INR</h2>

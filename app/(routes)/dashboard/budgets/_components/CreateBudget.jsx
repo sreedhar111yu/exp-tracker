@@ -18,8 +18,8 @@ import { useUser } from '@clerk/nextjs';
 import { toast } from 'sonner';
 import { db } from '@/utils/dbConfig';
 
-function CreateBudget() {
-  const [emojiIcon, setEmojiIcon] = useState('emj');
+function CreateBudget({refreshData}) {
+  const [emojiIcon, setEmojiIcon] = useState('e');
   const [openEmojiPicker, setOpenEmojiPicker] = useState(false);
 
   const [name, setName] = useState('');
@@ -37,6 +37,7 @@ function CreateBudget() {
       }).execute(); // Use .execute() to run the query
 
       if (result) {
+        refreshData()
         toast('New Budget Created!');
       }
     } catch (error) {
@@ -67,7 +68,7 @@ function CreateBudget() {
                 >
                   {emojiIcon}
                 </Button>
-                <div className='absolute'>
+                <div className='absolute z-20'>
                   {openEmojiPicker && (
                     <EmojiPicker
                       onEmojiClick={(e) => {
